@@ -1,0 +1,69 @@
+﻿<ExtensionModel>
+	<Runtime>
+		<Import assembly="AvaloniaVS.Mac.dll" />
+		<Import file="Avalonia.Remote.Protocol.dll"/>
+		<Import assembly="SixLabors.ImageSharp.dll"/>
+	</Runtime>
+
+	<Dependencies>
+		<Addin id="::MonoDevelop.Core" version="17.0" />
+		<Addin id="::MonoDevelop.CSharpBinding" version="17.0" />
+		<Addin id="::MonoDevelop.DotNetCore" version="17.0" />
+		<Addin id="::MonoDevelop.Ide" version="17.0" />
+		<Addin id="::MonoDevelop.Refactoring" version="17.0" />
+	</Dependencies>
+
+	<Packages>
+    <Package id="SixLabors.ImageSharp" version="2.1.1" />
+</Packages>
+
+	<Extension path="/MonoDevelop/Core/MimeTypes">
+		<MimeType id="application/xaml" _description="XAML Document" contentType="axaml" basetype="application/xml" isText="true" icon="md-xml-file-icon">
+			<File pattern="*.axaml" />
+		</MimeType>
+		<MimeType id="application/xaml" _description="XAML Document" contentType="xaml" basetype="application/xml" isText="true" icon="md-xml-file-icon">
+			<File pattern="*.xaml" />
+		</MimeType>	
+	</Extension>
+
+
+	<Extension path="/MonoDevelop/TextEditor/SupportedFileTypes">
+		<SupportedFileType id="axaml" extension=".axaml" />	
+	</Extension>
+
+
+	<!-- Pads --> 
+	<Extension path="/MonoDevelop/Ide/Pads">
+
+		<!-- XAML Previewer -->
+		<Pad
+			id="AvaloniaVS.Mac.XamlPreviewerPad"
+			defaultLayout="*"
+			defaultPlacement="Center Bottom"
+			defaultStatus="AutoHide"
+			icon="md-console"
+			class="AvaloniaVS.Mac.Views.XamlPreviewerPad"
+			_label="XAML Previewer" />
+
+	</Extension>
+
+
+
+
+	<Extension path="/MonoDevelop/Ide/Composition">
+		<Assembly file="AvaloniaVS.Mac.dll" />
+	</Extension>
+
+	<Extension path="/MonoDevelop/Ide/TypeService/MefHostServices">
+        <Assembly file ="AvaloniaVS.Mac.dll" />
+    </Extension>
+
+    <Extension path="/MonoDevelop/Ide/TypeService/PlatformMefHostServices">
+        <Assembly file ="AvaloniaVS.Mac.dll" />
+    </Extension>
+
+	<Extension path="/MonoDevelop/Ide/StartupHandlers">
+		<Class class="AvaloniaVS.Mac.StartupHandler" />
+	</Extension>
+
+</ExtensionModel>

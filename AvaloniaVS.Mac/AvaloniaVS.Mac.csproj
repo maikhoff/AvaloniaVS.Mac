@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="MonoDevelop.References.proj" />
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+ <ItemGroup>
+    <Reference Include="Xamarin.Mac">
+      <HintPath>Xamarin.Mac.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoDevelop.Core">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MonoDevelop.Ide">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MonoDevelop.CSharpBinding">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MonoDevelop.TextEditor">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.0.0-preview.7955" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="Services\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\submodules\Avalonia.Ide\src\Avalonia.Ide.CompletionEngine\Avalonia.Ide.CompletionEngine.csproj" />
+    <ProjectReference Include="..\submodules\Avalonia.Ide\src\Avalonia.Ide.CompletionEngine.DnlibMetadataProvider\Avalonia.Ide.CompletionEngine.DnlibMetadataProvider.csproj" />
+    <ProjectReference Include="..\submodules\Avalonia\src\Avalonia.Remote.Protocol\Avalonia.Remote.Protocol.csproj" />
+  </ItemGroup>
+</Project>
