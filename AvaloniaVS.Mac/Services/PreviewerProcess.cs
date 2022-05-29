@@ -400,7 +400,7 @@ public class PreviewerProcess
 
     private nfloat ScaleFactor => 1; //NSScreen.MainScreen.UserSpaceScaleFactor;
 
-   
+
     private async Task OnMessageAsync(object message)
     {
         MonoDevelop.Core.LoggingService.LogVerbose("Started PreviewerProcess.OnMessageAsync()");
@@ -410,29 +410,33 @@ public class PreviewerProcess
         {
             case FrameMessage frame:
                 {
-                    Console.WriteLine($"Frame Width:{frame.Width} | Height:{frame.Height} | Data:{frame.Data.Length}");
-
-                    try
+                    if (frame.Data[0] != 0 && frame.Data[1] != 0 && frame.Data[2] != 0 && frame.Data[3] != 0)
                     {
-                        using (var image = Image.LoadPixelData<Rgba32>(frame.Data, frame.Width, frame.Height))
-                        {
-                            using (var stream = new MemoryStream())
-                            {
-                                image.Save(stream, new JpegEncoder());
-                                var bytes = stream.ToArray();
-                                var imageData = NSData.FromArray(bytes);
+                        Console.WriteLine($"Frame Width:{frame.Width} | Height:{frame.Height} | Data:{frame.Data.Length}");
 
-                                var size = new CGSize(frame.Width, frame.Height);
-                                img = new NSImage(imageData);
+                        try
+                        {
+                            using (var image = Image.LoadPixelData<Rgba32>(frame.Data, frame.Width, frame.Height))
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    await image.SaveAsJpegAsync(stream);
+
+                                    var bytes = stream.ToArray();
+                                    var imageData = NSData.FromArray(bytes);
+
+                                    var size = new CGSize(frame.Width, frame.Height);
+                                    img = new NSImage(imageData);
+                                }
                             }
                         }
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
 
-                    FrameReceived?.Invoke(this, EventArgs.Empty);
+                        FrameReceived?.Invoke(this, EventArgs.Empty);
+                    }
 
                     await SendAsync(new FrameReceivedMessage
                     {
