@@ -73,7 +73,7 @@ public class StartupHandler : CommandHandler
             Console.WriteLine(pt.FullPath);
 
             var statupProject = IdeApp.Workspace.CurrentSelectedSolution.StartupItem as Project;
-            var selectedProject = IdeApp.Workspace.CurrentSelectedProject;
+            var selectedProject = e.Document.Owner as Project;
 
             var startupProjectInfo = projectsInfo.FirstOrDefault(x => x.Project == statupProject);
             if (startupProjectInfo == null)
