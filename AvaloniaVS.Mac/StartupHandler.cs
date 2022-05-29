@@ -72,19 +72,29 @@ public class StartupHandler : CommandHandler
             var pt = IdeApp.Workspace.BaseDirectory;
             Console.WriteLine(pt.FullPath);
 
-            var proj = IdeApp.Workspace.CurrentSelectedProject;
-            var activeProjectInfo = projectsInfo.FirstOrDefault(x => x.Project == proj);
-            if (activeProjectInfo == null)
+            var statupProject = IdeApp.Workspace.CurrentSelectedSolution.StartupItem as Project;
+            var selectedProject = IdeApp.Workspace.CurrentSelectedProject;
+
+            var startupProjectInfo = projectsInfo.FirstOrDefault(x => x.Project == statupProject);
+            if (startupProjectInfo == null)
                 return;
 
-            var activeProjOutput = activeProjectInfo.Outputs.FirstOrDefault();
-            if (activeProjOutput == null)
+            var startupProjectOutput = startupProjectInfo.Outputs.FirstOrDefault();
+            if (startupProjectOutput == null)
+                return;
+
+            var selectedProjectInfo = projectsInfo.FirstOrDefault(x => x.Project == selectedProject);
+            if (selectedProjectInfo == null)
+                return;
+
+            var selectedProjectOutput = selectedProjectInfo.Outputs.FirstOrDefault();
+            if (selectedProjectOutput == null)
                 return;
 
 
-            var assemblyPath = @"/Users/michaeljames/RiderProjects/RadioButton/RadioButton/bin/Debug/net6.0/RadioButton.dll";// SelectedTarget?.XamlAssembly;
-            var executablePath = activeProjOutput.TargetAssembly.Replace(".exe", ".dll"); // SelectedTarget?.ExecutableAssembly;
-            var hostAppPath = activeProjOutput.HostApp; // SelectedTarget?.HostApp;
+            var assemblyPath = selectedProjectOutput.TargetAssembly;
+            var executablePath = startupProjectOutput.TargetAssembly.Replace(".exe", ".dll");
+            var hostAppPath = startupProjectOutput.HostApp;
 
             if(!previewerProcess.IsRunning)
                 await previewerProcess.StartAsync(assemblyPath, executablePath, hostAppPath);
